@@ -1,0 +1,5 @@
+# Keep this project on the Django 5.2 LTS release line.
+Django>=5.2,<5.3
+Pillow>=10.0
+psycopg[binary]>=3.2
+python-dotenv>=1.0
