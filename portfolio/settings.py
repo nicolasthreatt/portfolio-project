@@ -35,8 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "blogs",
-    "home",
-    "resume",
+    "pages.apps.PagesConfig",
 ]
 
 MIDDLEWARE = [
@@ -104,7 +103,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
+
+LANGUAGES = [
+    ("en", "English"),
+    ("fr", "Français"),
+    ("es", "Español"),
+]
 
 TIME_ZONE = "UTC"
 

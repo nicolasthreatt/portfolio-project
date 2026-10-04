@@ -1,13 +1,28 @@
 <header class="site-header">
   <div class="site-header__inner">
     <a class="site-header__brand" href="{% url 'home' %}">{{ site_profile.full_name }}</a>
-    <nav class="site-nav" aria-label="Primary navigation">
-      {% with current_url=request.resolver_match.url_name %}
-      <a href="{% url 'blog-list' %}"{% if current_url|slice:':5' == 'blog-' %} aria-current="page"{% endif %}>Blogs</a>
-      <a href="{% url 'experience-list' %}"{% if current_url|slice:':11' == 'experience-' %} aria-current="page"{% endif %}>Experience</a>
-      <a href="{% url 'projects' %}"{% if current_url == 'projects' %} aria-current="page"{% endif %}>Projects</a>
-      <a href="{% url 'resume' %}"{% if current_url == 'resume' %} aria-current="page"{% endif %}>Resume</a>
-      {% endwith %}
-    </nav>
+    <div class="site-header__navigation">
+      <nav class="site-nav" aria-label="Primary navigation">
+        {% with current_url=request.resolver_match.url_name %}
+        <a href="{% url 'blog-list' %}"{% if current_url|slice:':5' == 'blog-' %} aria-current="page"{% endif %}>Blogs</a>
+        <a href="{% url 'experience-list' %}"{% if current_url|slice:':11' == 'experience-' %} aria-current="page"{% endif %}>Experience</a>
+        <a href="{% url 'projects' %}"{% if current_url == 'projects' %} aria-current="page"{% endif %}>Projects</a>
+        <a href="{% url 'resume' %}"{% if current_url == 'resume' %} aria-current="page"{% endif %}>Resume</a>
+        {% endwith %}
+      </nav>
+      <details class="site-language">
+        <summary aria-label="Language: English">
+          EN <span aria-hidden="true">▾</span>
+        </summary>
+        <div class="site-language__panel">
+          <p id="language-note">Translations coming soon</p>
+          <ul aria-label="Site languages">
+            <li><span lang="en" aria-current="true">English <span aria-hidden="true">✓</span></span></li>
+            <li><button type="button" lang="fr" disabled aria-describedby="language-note">Français <small>Planned</small></button></li>
+            <li><button type="button" lang="es" disabled aria-describedby="language-note">Español <small>Planned</small></button></li>
+          </ul>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
