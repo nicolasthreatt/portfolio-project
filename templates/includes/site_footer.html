@@ -1,0 +1,22 @@
+<footer class="site-footer">
+  {% if site_profile.github_url or site_profile.email or site_profile.linkedin_url %}
+  <div class="site-footer__social-links" aria-label="Social links">
+    {% if site_profile.github_url %}
+    <a class="site-footer__social-link" href="{{ site_profile.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <i class="fab fa-github" aria-hidden="true"></i>
+    </a>
+    {% endif %}
+    {% if site_profile.email %}
+    <a class="site-footer__social-link" href="mailto:{{ site_profile.email }}" aria-label="Email {{ site_profile.full_name }}">
+      <i class="fas fa-envelope" aria-hidden="true"></i>
+    </a>
+    {% endif %}
+    {% if site_profile.linkedin_url %}
+    <a class="site-footer__social-link" href="{{ site_profile.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+  <p class="site-footer__copyright">© {% now "Y" %} {{ site_profile.full_name }}</p>
+</footer>
