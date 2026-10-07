@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_profile.full_name }}{% if home_content.heading %} | {{ home_content.heading }}{% endif %}{% endblock %}
+{% block description %}{{ home_content.description }}{% endblock %}
+{% block main_class %}home-main{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'pages/home.css' %}?v=8" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div id="intro">
+  {% if headshot_url %}
+  <div class="home-intro__photo">
+    <img
+      class="img-circle"
+      src="{{ headshot_url }}"
+      alt="{{ site_profile.full_name }}"
+      width="192"
+      height="192"
+    >
+  </div>
+  {% endif %}
+  <h1 class="home-intro__title">{{ home_content.heading }}</h1>
+  {% if home_content.location %}<p class="home-intro__location">{{ home_content.location }}</p>{% endif %}
+  <div class="home-intro__copy">
+    {% for paragraph in home_content.paragraphs %}
+    <p class="text-start">{{ paragraph }}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

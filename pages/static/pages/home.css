@@ -1,0 +1,44 @@
+img.img-circle {
+  background-color: transparent;
+  border-radius: 50%;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  width: clamp(9rem, 13vw, 12rem);
+}
+
+#intro {
+  margin: clamp(1.25rem, 2vw, 2rem) auto;
+}
+
+.home-intro__photo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.home-intro__title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.home-intro__copy {
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+.home-intro__location {
+  color: #adb5bd;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.home-intro__copy p {
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+}
+
+.home-main + .site-footer {
+  margin-top: 0.5rem;
+}

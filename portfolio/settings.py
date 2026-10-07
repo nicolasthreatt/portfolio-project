@@ -17,6 +17,10 @@ SITE_PROFILE = {
     "linkedin_url": os.getenv("PORTFOLIO_PROFILE_LINKEDIN_URL", ""),
 }
 
+HOME_CONTENT_FILE = BASE_DIR / os.getenv(
+    "PORTFOLIO_HOME_CONTENT_FILE", "pages/home_content.example.json"
+)
+
 DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes", "on"}
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
