@@ -37,6 +37,12 @@ class SharedProfileTests(SimpleTestCase):
         self.assertNotIn('class="site-footer__social-links"', html)
         self.assertNotIn('href="mailto:"', html)
 
+    def test_footer_icons_do_not_require_an_icon_font(self):
+        html = self.render_base()
+        self.assertEqual(html.count('class="site-footer__icon"'), 3)
+        self.assertEqual(html.count('focusable="false"'), 3)
+        self.assertNotIn("fontawesome/css/", html)
+
     @override_settings(
         SITE_PROFILE={**PROFILE, "full_name": 'Example "Person" <Test>'}
     )
