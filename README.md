@@ -60,7 +60,7 @@ points to a local JSON file. To customize it:
 
 ```zsh
 mkdir -p private
-cp pages/home_content.example.json private/home.json
+cp examples/home.json private/home.json
 ```
 
 Set `PORTFOLIO_HOME_CONTENT_FILE=private/home.json` in `.env`, then edit the JSON

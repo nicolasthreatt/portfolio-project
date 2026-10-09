@@ -112,7 +112,7 @@ class HomepageTests(SimpleTestCase):
                     load_home_content()
 
     def test_generic_example_can_render_without_personal_content(self):
-        example = Path(__file__).with_name("home_content.example.json")
+        example = Path(__file__).resolve().parent.parent / "examples" / "home.json"
         with override_settings(HOME_CONTENT_FILE=example):
             response = self.client.get("/")
         self.assertEqual(response.status_code, 200)

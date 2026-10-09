@@ -18,7 +18,7 @@ SITE_PROFILE = {
 }
 
 HOME_CONTENT_FILE = BASE_DIR / os.getenv(
-    "PORTFOLIO_HOME_CONTENT_FILE", "pages/home_content.example.json"
+    "PORTFOLIO_HOME_CONTENT_FILE", "examples/home.json"
 )
 
 DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes", "on"}
