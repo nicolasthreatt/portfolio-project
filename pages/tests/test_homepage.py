@@ -1,5 +1,3 @@
-"""Homepage tests use fictional content rather than a developer's local profile."""
-
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -8,11 +6,10 @@ from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
 from django.urls import path
 
-from .content import load_home_content
-from .views import homepage
+from ..content import load_home_content
+from ..views import homepage
 
 
-# Test only the homepage; the other names let its shared navigation render.
 urlpatterns = [
     path("", homepage, name="home"),
     path("blogs/", homepage, name="blog-list"),
@@ -40,7 +37,9 @@ CONTENT = {
 
 
 @override_settings(
-    ALLOWED_HOSTS=["testserver"], SITE_PROFILE=PROFILE, ROOT_URLCONF=__name__
+    ALLOWED_HOSTS=["testserver"],
+    SITE_PROFILE=PROFILE,
+    ROOT_URLCONF=__name__,
 )
 class HomepageTests(SimpleTestCase):
     def setUp(self):
@@ -112,7 +111,7 @@ class HomepageTests(SimpleTestCase):
                     load_home_content()
 
     def test_generic_example_can_render_without_personal_content(self):
-        example = Path(__file__).resolve().parent.parent / "examples" / "home.json"
+        example = Path(__file__).resolve().parents[2] / "examples" / "home.json"
         with override_settings(HOME_CONTENT_FILE=example):
             response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
