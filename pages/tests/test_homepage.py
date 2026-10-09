@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 
 from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase, override_settings
-from django.urls import path
+from django.urls import include, path
 
 from ..content import load_home_content
 from ..views import homepage
@@ -12,10 +12,7 @@ from ..views import homepage
 
 urlpatterns = [
     path("", homepage, name="home"),
-    path("blogs/", homepage, name="blog-list"),
-    path("experience/", homepage, name="experience-list"),
-    path("projects/", homepage, name="project-list"),
-    path("resume/", homepage, name="resume"),
+    path("", include("portfolio.tests.urls")),
 ]
 
 
@@ -85,6 +82,57 @@ class HomepageTests(SimpleTestCase):
         self.client.get("/")
         self.write_content({**CONTENT, "paragraphs": ["An updated introduction."]})
         self.assertContains(self.client.get("/"), "An updated introduction.")
+
+    def test_language_switch_translates_homepage_and_keeps_shared_photo(self):
+        translations = {
+            "fr": {
+                "heading": "Profession exemple",
+                "location": "Ville exemple",
+                "description": "Un portfolio exemple.",
+                "paragraphs": ["Une introduction.", "Mon parcours."],
+            },
+            "es": {
+                "heading": "Profesión de ejemplo",
+                "location": "Ciudad de ejemplo",
+                "description": "Un portafolio de ejemplo.",
+                "paragraphs": ["Una introducción.", "Mi trayectoria."],
+            },
+        }
+        self.write_content({**CONTENT, "translations": translations})
+        for code, translated in translations.items():
+            with self.subTest(language=code):
+                self.client.post("/i18n/setlang/", {"language": code, "next": "/"})
+                response = self.client.get("/")
+                self.assertContains(response, f'<div id="intro" lang="{code}">')
+                self.assertContains(response, f"Example Person | {translated['heading']}")
+                self.assertContains(response, translated["location"])
+                self.assertContains(response, translated["description"])
+                for paragraph in translated["paragraphs"]:
+                    self.assertContains(response, paragraph)
+                self.assertContains(response, 'src="/media/images/example.jpg"')
+                self.assertNotContains(response, "An introduction.")
+        self.client.post("/i18n/setlang/", {"language": "en", "next": "/"})
+        self.assertContains(self.client.get("/"), "An introduction.")
+
+    def test_missing_translation_falls_back_to_english(self):
+        response = self.client.get("/", HTTP_ACCEPT_LANGUAGE="fr")
+        self.assertContains(response, '<html lang="fr"')
+        self.assertContains(response, '<div id="intro" lang="en">')
+        self.assertContains(response, "An introduction.")
+
+    def test_translated_content_is_escaped(self):
+        translated = {**CONTENT, "paragraphs": ["<script>example</script>"]}
+        self.write_content({**CONTENT, "translations": {"es": translated}})
+        response = self.client.get("/", HTTP_ACCEPT_LANGUAGE="es")
+        self.assertContains(response, "&lt;script&gt;example&lt;/script&gt;")
+        self.assertNotContains(response, "<script>example</script>")
+
+    def test_invalid_translations_are_rejected(self):
+        for translations in ([], {"invalid": CONTENT}, {"fr": {}}, {"es": {**CONTENT, "paragraphs": [123]}}):
+            with self.subTest(translations=translations):
+                self.write_content({**CONTENT, "translations": translations})
+                with self.assertRaises(ImproperlyConfigured):
+                    load_home_content()
 
     def test_missing_file_has_a_clear_configuration_error(self):
         with override_settings(HOME_CONTENT_FILE=self.path.parent / "missing.json"):

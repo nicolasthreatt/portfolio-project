@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Primary navigation"
+msgstr "Navegación principal"
+
+msgid "Blogs"
+msgstr "Blog"
+
+msgid "Experience"
+msgstr "Experiencia"
+
+msgid "Projects"
+msgstr "Proyectos"
+
+msgid "Resume"
+msgstr "Currículum"
+
+msgid "Choose language"
+msgstr "Elegir idioma"
+
+msgid "Site languages"
+msgstr "Idiomas del sitio"

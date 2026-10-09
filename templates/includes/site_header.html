@@ -1,26 +1,39 @@
+{% load i18n %}
+{% get_current_language as current_language %}
+{% get_available_languages as available_languages %}
+{% get_language_info_list for available_languages as languages %}
 <header class="site-header">
   <div class="site-header__inner">
     <a class="site-header__brand" href="{% url 'home' %}">{{ site_profile.full_name }}</a>
     <div class="site-header__navigation">
-      <nav class="site-nav" aria-label="Primary navigation">
+      <nav class="site-nav" aria-label="{% translate 'Primary navigation' %}">
         {% with current_url=request.resolver_match.url_name %}
-        <a href="{% url 'blog-list' %}"{% if current_url|slice:':5' == 'blog-' %} aria-current="page"{% endif %}>Blogs</a>
-        <a href="{% url 'experience-list' %}"{% if current_url|slice:':11' == 'experience-' %} aria-current="page"{% endif %}>Experience</a>
-        <a href="{% url 'project-list' %}"{% if current_url == 'project-list' %} aria-current="page"{% endif %}>Projects</a>
-        <a href="{% url 'resume' %}"{% if current_url == 'resume' %} aria-current="page"{% endif %}>Resume</a>
+        <a href="{% url 'blog-list' %}"{% if current_url|slice:':5' == 'blog-' %} aria-current="page"{% endif %}>{% translate 'Blogs' %}</a>
+        <a href="{% url 'experience-list' %}"{% if current_url|slice:':11' == 'experience-' %} aria-current="page"{% endif %}>{% translate 'Experience' %}</a>
+        <a href="{% url 'project-list' %}"{% if current_url == 'project-list' %} aria-current="page"{% endif %}>{% translate 'Projects' %}</a>
+        <a href="{% url 'resume' %}"{% if current_url == 'resume' %} aria-current="page"{% endif %}>{% translate 'Resume' %}</a>
         {% endwith %}
       </nav>
       <details class="site-language">
-        <summary aria-label="Language: English">
-          EN <span aria-hidden="true">▾</span>
+        <summary aria-label="{% translate 'Choose language' %}">
+          {{ current_language|upper }} <span aria-hidden="true">▾</span>
         </summary>
         <div class="site-language__panel">
-          <p id="language-note">Translations coming soon</p>
-          <ul aria-label="Site languages">
-            <li><span lang="en" aria-current="true">English <span aria-hidden="true">✓</span></span></li>
-            <li><button type="button" lang="fr" disabled aria-describedby="language-note">Français <small>Planned</small></button></li>
-            <li><button type="button" lang="es" disabled aria-describedby="language-note">Español <small>Planned</small></button></li>
-          </ul>
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <ul aria-label="{% translate 'Site languages' %}">
+              {% for language in languages %}
+              <li>
+                {% if language.code == current_language %}
+                <span lang="{{ language.code }}" aria-current="true">{{ language.name_local|capfirst }} <span aria-hidden="true">✓</span></span>
+                {% else %}
+                <button type="submit" name="language" value="{{ language.code }}" lang="{{ language.code }}">{{ language.name_local|capfirst }}</button>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </form>
         </div>
       </details>
     </div>

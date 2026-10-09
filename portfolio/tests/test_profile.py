@@ -1,20 +1,5 @@
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.test import RequestFactory, SimpleTestCase, override_settings
-from django.urls import path
-
-
-def placeholder(request):
-    return HttpResponse()
-
-
-urlpatterns = [
-    path("", placeholder, name="home"),
-    path("blogs/", placeholder, name="blog-list"),
-    path("experience/", placeholder, name="experience-list"),
-    path("projects/", placeholder, name="project-list"),
-    path("resume/", placeholder, name="resume"),
-]
 
 
 PROFILE = {
@@ -26,7 +11,7 @@ PROFILE = {
 }
 
 
-@override_settings(SITE_PROFILE=PROFILE, ROOT_URLCONF=__name__)
+@override_settings(SITE_PROFILE=PROFILE, ROOT_URLCONF="portfolio.tests.urls")
 class SharedProfileTests(SimpleTestCase):
     def render_base(self):
         return render_to_string("base.html", request=RequestFactory().get("/"))

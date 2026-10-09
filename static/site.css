@@ -132,12 +132,6 @@ body {
   z-index: 10;
 }
 
-.site-language__panel p {
-  color: #adb5bd;
-  font-size: 0.75rem;
-  margin: 0 0 0.5rem;
-}
-
 .site-language__panel ul {
   list-style: none;
   margin: 0;
@@ -149,6 +143,7 @@ body {
   align-items: center;
   background: transparent;
   border: 0;
+  color: #f8f9fa;
   display: flex;
   font-size: 0.875rem;
   justify-content: space-between;
@@ -160,9 +155,13 @@ body {
   color: #b9dcff;
 }
 
-.site-language__panel button:disabled {
-  color: #adb5bd;
-  cursor: not-allowed;
+.site-language__panel button:hover {
+  background: #343a40;
+}
+
+.site-language__panel button:focus-visible {
+  outline: 2px solid #8fbfff;
+  outline-offset: -2px;
 }
 
 @media (min-width: 48rem) {
