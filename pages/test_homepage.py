@@ -17,7 +17,7 @@ urlpatterns = [
     path("", homepage, name="home"),
     path("blogs/", homepage, name="blog-list"),
     path("experience/", homepage, name="experience-list"),
-    path("projects/", homepage, name="projects"),
+    path("projects/", homepage, name="project-list"),
     path("resume/", homepage, name="resume"),
 ]
 
