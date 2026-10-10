@@ -26,3 +26,47 @@ msgstr "Choisir la langue"
 
 msgid "Site languages"
 msgstr "Langues du site"
+
+msgid "Selected software and data projects"
+msgstr "Sélection de projets logiciels et de données"
+
+msgid "Search projects"
+msgstr "Rechercher des projets"
+
+msgid "Search projects by name, description, or technology"
+msgstr "Rechercher des projets par nom, description ou technologie"
+
+msgid "Search projects or technologies…"
+msgstr "Rechercher des projets ou des technologies…"
+
+#, python-format
+msgid "%(count)s of %(total)s"
+msgstr "%(count)s sur %(total)s"
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Project cards. Scroll horizontally to see more projects."
+msgstr "Cartes de projets. Faites défiler horizontalement pour voir davantage de projets."
+
+#, python-format
+msgid "%(title)s repository on GitHub (opens in a new tab)"
+msgstr "Dépôt GitHub de %(title)s (s’ouvre dans un nouvel onglet)"
+
+#, python-format
+msgid "No projects match “%(query)s”. Try another name or technology, or clear your search."
+msgstr "Aucun projet ne correspond à « %(query)s ». Essayez un autre nom ou une autre technologie, ou effacez votre recherche."
+
+msgid "Projects coming soon."
+msgstr "Projets à venir."
+
+msgid "Scroll to see more"
+msgstr "Faites défiler pour en voir plus"
+
+msgid "project"
+msgid_plural "projects"
+msgstr[0] "projet"
+msgstr[1] "projets"

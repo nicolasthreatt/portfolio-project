@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% translate 'Projects' %} | {{ site_profile.full_name }}{% endblock %}
+{% block description %}{% translate 'Selected software and data projects' %}{% if site_profile.full_name %} — {{ site_profile.full_name }}{% endif %}.{% endblock %}
+{% block main_class %}projects-main{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'pages/projects.css' %}?v=26" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section class="projects-page">
+  <h1 class="visually-hidden">{% translate 'Projects' %}</h1>
+  <div class="projects-page__gallery">
+    {% if project_total %}
+    <form class="projects-search" action="{% url 'project-list' %}" method="get" role="search" aria-label="{% translate 'Search projects' %}">
+      <label class="visually-hidden" for="project-query">{% translate 'Search projects by name, description, or technology' %}</label>
+      <div class="projects-search__field">
+        <input id="project-query" type="search" name="q" value="{{ project_query }}" placeholder="{% translate 'Search projects or technologies…' %}">
+        {% if project_query %}
+        <span class="projects-search__count">{% blocktranslate with count=project_count total=project_total %}{{ count }} of {{ total }}{% endblocktranslate %}<span class="visually-hidden"> {% blocktranslate count count=project_count %}project{% plural %}projects{% endblocktranslate %}</span></span>
+        <a class="projects-search__clear" href="{% url 'project-list' %}">{% translate 'Clear' %}</a>
+        {% endif %}
+      </div>
+      <button type="submit">{% translate 'Search' %}</button>
+    </form>
+    {% endif %}
+    {% if projects %}
+    <div class="projects-rail" tabindex="0" role="region" aria-label="{% translate 'Project cards. Scroll horizontally to see more projects.' %}">
+      {% for project in projects %}
+      <article class="repo-card__content project-card" lang="{{ project.language }}">
+        <p class="project-card__category">{{ project.category }}</p>
+        <h2 class="repo-card__title" lang="en">
+          <a class="project-card__link" href="{{ project.repository_url }}" target="_blank" rel="noopener noreferrer" aria-label="{% blocktranslate with title=project.title %}{{ title }} repository on GitHub (opens in a new tab){% endblocktranslate %}">{{ project.title }}</a>
+        </h2>
+        <p class="repo-card__description">{{ project.description }}</p>
+        {% if project.technologies %}
+        <div class="project-card__footer">
+          <div class="repo-card__metadata">
+            {% for technology in project.technologies %}<span>{{ technology }}</span>{% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    <p class="projects-page__scroll-hint" hidden>{% translate 'Scroll to see more' %} <span aria-hidden="true">→</span></p>
+    {% else %}
+    <p class="projects-page__empty">{% if project_query and project_total %}{% blocktranslate with query=project_query %}No projects match “{{ query }}”. Try another name or technology, or clear your search.{% endblocktranslate %}{% else %}{% translate 'Projects coming soon.' %}{% endif %}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="module" src="{% static 'pages/projects.js' %}?v=1"></script>
+{% endblock %}
