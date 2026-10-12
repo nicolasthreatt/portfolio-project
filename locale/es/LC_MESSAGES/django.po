@@ -95,3 +95,9 @@ msgstr "Volver a experiencia"
 
 msgid "No experiences have been added yet."
 msgstr "Todavía no se ha añadido ninguna experiencia."
+
+msgid "View resume"
+msgstr "Ver currículum"
+
+msgid "Download PDF"
+msgstr "Descargar PDF"

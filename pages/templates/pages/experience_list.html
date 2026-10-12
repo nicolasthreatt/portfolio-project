@@ -11,6 +11,12 @@
 {% block content %}
 <section id="experience-list">
   <h1 class="visually-hidden">{% translate 'Experience' %}</h1>
+  {% if resume_available %}
+  <div class="experience-list__resume">
+    <a class="btn btn-outline-light btn-sm" href="{% url 'resume-view' %}" target="_blank" rel="noopener noreferrer">{% translate 'View resume' %}</a>
+    <a class="btn btn-outline-light btn-sm" href="{% url 'resume-download' %}">{% translate 'Download PDF' %}</a>
+  </div>
+  {% endif %}
   {% for experience in experiences %}
   <article class="experience-list__item" lang="{{ experience.language }}">
     <div class="experience-list__heading">

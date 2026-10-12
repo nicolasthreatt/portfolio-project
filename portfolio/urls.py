@@ -11,6 +11,11 @@ urlpatterns = [
     path("", pages.views.homepage, name="home"),
     path("projects/", pages.views.projects, name="project-list"),
     path("experience/", pages.views.experience_list, name="experience-list"),
+    path("experience/resume/", pages.views.resume_pdf, name="resume-view"),
+    path(
+        "experience/resume/download/", pages.views.resume_pdf,
+        {"download": True}, name="resume-download",
+    ),
     path(
         "experience/<int:experience_id>/",
         pages.views.experience_detail,

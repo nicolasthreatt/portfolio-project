@@ -129,4 +129,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+RESUME_FILE = BASE_DIR / os.getenv("PORTFOLIO_RESUME_FILE", "media/resume.pdf")
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

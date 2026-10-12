@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db.models.functions import Lower
-from django.http import Http404
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import get_language
+from django.views.decorators.http import require_safe
 
 from .content import load_home_content
 from .models import Experience, Project
@@ -76,7 +78,7 @@ def experience_list(request):
     ]
     return render(
         request, "pages/experience_list.html",
-        {"experiences": experiences},
+        {"experiences": experiences, "resume_available": settings.RESUME_FILE.is_file()},
     )
 
 
@@ -89,3 +91,19 @@ def experience_detail(request, experience_id):
     if experience is None:
         raise Http404
     return render(request, "pages/experience_detail.html", {"experience": experience})
+
+
+@require_safe
+def resume_pdf(request, download=False):
+    try:
+        document = settings.RESUME_FILE.open("rb")
+    except (FileNotFoundError, IsADirectoryError):
+        raise Http404("Resume not available.") from None
+    name = settings.SITE_PROFILE.get("full_name", "").strip()
+    filename = f"{name} Resume.pdf" if name else "Resume.pdf"
+    return FileResponse(
+        document,
+        content_type="application/pdf",
+        as_attachment=download,
+        filename=filename,
+    )

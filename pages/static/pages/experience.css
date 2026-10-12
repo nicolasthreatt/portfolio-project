@@ -13,6 +13,14 @@
   padding-bottom: 0.75rem;
 }
 
+.experience-list__resume {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 .experience-list__heading {
   align-items: baseline;
   display: flex;

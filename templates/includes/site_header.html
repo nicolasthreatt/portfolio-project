@@ -10,11 +10,9 @@
         {% with current_url=request.resolver_match.url_name %}
         {% url 'blog-list' as blog_url %}
         {% url 'experience-list' as experience_url %}
-        {% url 'resume' as resume_url %}
         {% if blog_url %}<a href="{{ blog_url }}"{% if current_url|slice:':5' == 'blog-' %} aria-current="page"{% endif %}>{% translate 'Blogs' %}</a>{% endif %}
         {% if experience_url %}<a href="{{ experience_url }}"{% if current_url|slice:':11' == 'experience-' %} aria-current="page"{% endif %}>{% translate 'Experience' %}</a>{% endif %}
         <a href="{% url 'project-list' %}"{% if current_url == 'project-list' %} aria-current="page"{% endif %}>{% translate 'Projects' %}</a>
-        {% if resume_url %}<a href="{{ resume_url }}"{% if current_url == 'resume' %} aria-current="page"{% endif %}>{% translate 'Resume' %}</a>{% endif %}
         {% endwith %}
       </nav>
       <details class="site-language">
