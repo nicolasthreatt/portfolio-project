@@ -1,19 +1,12 @@
-import unicodedata
-
 from django.core.files.storage import default_storage
 from django.db.models.functions import Lower
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import get_language
 
 from .content import load_home_content
-from .models import Project
-
-
-def _normalize_search_text(value):
-    return "".join(
-        character for character in unicodedata.normalize("NFKD", value.casefold())
-        if not unicodedata.combining(character)
-    )
+from .models import Experience, Project
+from .utils import get_experience_content, search
 
 
 def homepage(request):
@@ -49,12 +42,12 @@ def projects(request):
     total = len(cards)
     query = request.GET.get("q", "").strip()
     if query:
-        term = _normalize_search_text(query)
+        term = search(query)
         cards = [
             project
             for project in cards
             if any(
-                term in _normalize_search_text(value)
+                term in search(value)
                 for value in (
                     project["title"],
                     project["description"],
@@ -73,3 +66,26 @@ def projects(request):
             "project_count": len(cards),
         },
     )
+
+
+def experience_list(request):
+    records = Experience.objects.filter(is_published=True).prefetch_related("translations")
+    experiences = [
+        content for experience in records
+        if (content := get_experience_content(experience)) is not None
+    ]
+    return render(
+        request, "pages/experience_list.html",
+        {"experiences": experiences},
+    )
+
+
+def experience_detail(request, experience_id):
+    record = get_object_or_404(
+        Experience.objects.filter(is_published=True).prefetch_related("translations"),
+        pk=experience_id,
+    )
+    experience = get_experience_content(record)
+    if experience is None:
+        raise Http404
+    return render(request, "pages/experience_detail.html", {"experience": experience})

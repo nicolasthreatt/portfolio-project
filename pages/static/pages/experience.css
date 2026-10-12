@@ -1,0 +1,97 @@
+#experience-list {
+  margin: 2rem auto 0.75rem;
+  max-width: 60rem;
+  text-align: left;
+}
+
+.experience-list__item {
+  border-bottom: 1px solid #495057;
+  padding: 1.25rem 0;
+}
+
+.experience-list__item:last-child {
+  padding-bottom: 0.75rem;
+}
+
+.experience-list__heading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  justify-content: space-between;
+}
+
+.experience-list__heading h2 {
+  font-size: 1.1875rem;
+  margin: 0;
+}
+
+.experience-list__heading a {
+  color: #b9dcff;
+  text-decoration: none;
+}
+
+.experience-list__dates,
+.experience-list__role {
+  color: #adb5bd;
+  margin: 0.25rem 0 0;
+}
+
+.experience-list__overview {
+  line-height: 1.6;
+  margin: 0.75rem 0 0;
+}
+
+.experience-detail {
+  margin: 2rem auto;
+  max-width: var(--site-prose-width);
+  text-align: left;
+}
+
+.experience-detail__header {
+  align-items: center;
+  border-bottom: 1px solid #495057;
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.experience-detail__logo {
+  height: 6rem;
+  object-fit: contain;
+  width: 6rem;
+}
+
+.experience-detail__role {
+  color: #adb5bd;
+  font-size: 1.125rem;
+  margin: 0.25rem 0;
+}
+
+.experience-detail__meta {
+  color: #adb5bd;
+  margin: 0;
+}
+
+.experience-detail h2 {
+  font-size: 1.25rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.experience-detail p,
+.experience-detail li {
+  line-height: 1.6;
+}
+
+.experience-detail__technologies {
+  color: #b9dcff;
+}
+
+@media (max-width: 575.98px) {
+  .experience-detail__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

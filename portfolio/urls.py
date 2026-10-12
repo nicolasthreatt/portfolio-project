@@ -10,6 +10,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", pages.views.homepage, name="home"),
     path("projects/", pages.views.projects, name="project-list"),
+    path("experience/", pages.views.experience_list, name="experience-list"),
+    path(
+        "experience/<int:experience_id>/",
+        pages.views.experience_detail,
+        name="experience-detail",
+    ),
 ]
 
 if settings.DEBUG:

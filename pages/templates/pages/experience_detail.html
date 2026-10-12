@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static i18n experience_links %}
+
+{% block title %}{{ experience.company }} | {{ site_profile.full_name }}{% endblock %}
+{% block description %}{{ experience.overview|default:experience.company }}{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'pages/experience.css' %}?v=7" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<article class="experience-detail" lang="{{ experience.language }}">
+  <header class="experience-detail__header">
+    {% if experience.logo %}
+    <img class="experience-detail__logo" src="{{ experience.logo.url }}" alt="" width="96" height="96">
+    {% endif %}
+    <div>
+      <h1>{{ experience.company }}</h1>
+      {% if experience.role %}<p class="experience-detail__role">{{ experience.role }}</p>{% endif %}
+      {% if experience.start_date or experience.location %}
+      <p class="experience-detail__meta">
+        {% if experience.start_date %}{{ experience.start_date|date:"M Y" }} – {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}{% translate 'Present' %}{% endif %}{% endif %}
+        {% if experience.start_date and experience.location %} · {% endif %}
+        {{ experience.location }}
+      </p>
+      {% endif %}
+      {% if experience.company_url %}
+      <p><a href="{{ experience.company_url }}" target="_blank" rel="noopener noreferrer">{% translate 'Company website' %} ↗</a></p>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if experience.overview %}
+  <section>
+    <h2>{% translate 'Overview' %}</h2>
+    <p>{{ experience.overview }}</p>
+  </section>
+  {% endif %}
+
+  {% if experience.accomplishment_list %}
+  <section>
+    <h2>{% translate 'Highlights' %}</h2>
+    <ul>
+      {% for accomplishment in experience.accomplishment_list %}
+      <li>{{ accomplishment|highlight_links }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if experience.technologies %}
+  <section>
+    <h2>{% translate 'Technologies' %}</h2>
+    <p class="experience-detail__technologies">{{ experience.technologies|join:", " }}</p>
+  </section>
+  {% endif %}
+
+  <p><a href="{% url 'experience-list' %}" class="btn btn-primary my-2">{% translate 'Back to experience' %}</a></p>
+</article>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% translate 'Experience' %} | {{ site_profile.full_name }}{% endblock %}
+{% block description %}{% blocktranslate with name=site_profile.full_name %}Professional experience of {{ name }}.{% endblocktranslate %}{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'pages/experience.css' %}?v=7" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section id="experience-list">
+  <h1 class="visually-hidden">{% translate 'Experience' %}</h1>
+  {% for experience in experiences %}
+  <article class="experience-list__item" lang="{{ experience.language }}">
+    <div class="experience-list__heading">
+      <h2><a href="{% url 'experience-detail' experience.id %}">{{ experience.company }}</a></h2>
+      {% if experience.start_date %}
+      <p class="experience-list__dates">
+        {{ experience.start_date|date:"M Y" }} – {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}{% translate 'Present' %}{% endif %}
+      </p>
+      {% endif %}
+    </div>
+    {% if experience.role %}<p class="experience-list__role">{{ experience.role }}</p>{% endif %}
+    {% if experience.overview %}<p class="experience-list__overview">{{ experience.overview }}</p>{% endif %}
+  </article>
+  {% empty %}
+  <p>{% translate 'No experiences have been added yet.' %}</p>
+  {% endfor %}
+</section>
+{% endblock %}

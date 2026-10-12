@@ -4,6 +4,12 @@ from django.core.exceptions import ValidationError
 from .validators import validate_repository_url, validate_technologies
 
 
+class ContentLanguage(models.TextChoices):
+    ENGLISH = "en", "English"
+    SPANISH = "es", "Español"
+    FRENCH = "fr", "Français"
+
+
 class Project(models.Model):
     title = models.CharField(max_length=140)
     repository_url = models.URLField(
@@ -27,10 +33,7 @@ class Project(models.Model):
 
 
 class ProjectTranslation(models.Model):
-    class Language(models.TextChoices):
-        ENGLISH = "en", "English"
-        SPANISH = "es", "Español"
-        FRENCH = "fr", "Français"
+    Language = ContentLanguage
 
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="translations"
@@ -50,3 +53,63 @@ class ProjectTranslation(models.Model):
 
     def __str__(self):
         return f"{self.project.title} ({self.language})"
+
+
+class Experience(models.Model):
+    """A portfolio-safe record of a professional experience."""
+
+    company = models.CharField(max_length=120)
+    company_url = models.URLField(max_length=300, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    technologies = models.JSONField(default=list, blank=True)
+    logo = models.ImageField(upload_to="images/", blank=True)
+    display_order = models.PositiveSmallIntegerField(default=0)
+    is_published = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "experience"
+        ordering = ["display_order", "company"]
+        verbose_name_plural = "experiences"
+
+    def clean(self):
+        super().clean()
+        try:
+            validate_technologies(self.technologies)
+        except ValidationError as exc:
+            raise ValidationError({"technologies": exc.messages}) from exc
+
+    def __str__(self):
+        return self.company
+
+
+class ExperienceTranslation(models.Model):
+    Language = ContentLanguage
+
+    experience = models.ForeignKey(
+        Experience, on_delete=models.CASCADE, related_name="translations"
+    )
+    language = models.CharField(max_length=2, choices=Language.choices)
+    role = models.CharField(max_length=120, blank=True)
+    location = models.CharField(max_length=120, blank=True)
+    overview = models.TextField(blank=True)
+    accomplishments = models.TextField(
+        blank=True, help_text="Enter one accomplishment per line."
+    )
+
+    class Meta:
+        db_table = "experience_translation"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["experience", "language"],
+                name="unique_experience_translation_language",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.experience.company} ({self.language})"
+
+    @property
+    def accomplishment_list(self) -> list[str]:
+        """Return non-empty accomplishment lines for templates and APIs."""
+        return [line.strip() for line in self.accomplishments.splitlines() if line.strip()]

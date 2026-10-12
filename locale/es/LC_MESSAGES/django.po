@@ -70,3 +70,28 @@ msgid "project"
 msgid_plural "projects"
 msgstr[0] "proyecto"
 msgstr[1] "proyectos"
+
+#, python-format
+msgid "Professional experience of %(name)s."
+msgstr "Experiencia profesional de %(name)s."
+
+msgid "Present"
+msgstr "Actualidad"
+
+msgid "Overview"
+msgstr "Resumen"
+
+msgid "Highlights"
+msgstr "Contribuciones destacadas"
+
+msgid "Technologies"
+msgstr "Tecnologías"
+
+msgid "Company website"
+msgstr "Sitio web de la empresa"
+
+msgid "Back to experience"
+msgstr "Volver a experiencia"
+
+msgid "No experiences have been added yet."
+msgstr "Todavía no se ha añadido ninguna experiencia."
