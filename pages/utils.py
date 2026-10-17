@@ -21,6 +21,7 @@ def get_experience_content(experience):
     text = translations.get(language, english)
     return {
         "id": experience.pk,
+        "slug": experience.slug,
         "company": experience.company,
         "company_url": experience.company_url,
         "start_date": experience.start_date,

@@ -82,10 +82,10 @@ def experience_list(request):
     )
 
 
-def experience_detail(request, experience_id):
+def experience_detail(request, slug):
     record = get_object_or_404(
         Experience.objects.filter(is_published=True).prefetch_related("translations"),
-        pk=experience_id,
+        slug=slug,
     )
     experience = get_experience_content(record)
     if experience is None:

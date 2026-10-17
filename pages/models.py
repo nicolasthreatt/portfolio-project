@@ -59,6 +59,7 @@ class Experience(models.Model):
     """A portfolio-safe record of a professional experience."""
 
     company = models.CharField(max_length=120)
+    slug = models.SlugField(unique=True)
     company_url = models.URLField(max_length=300, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -74,6 +75,8 @@ class Experience(models.Model):
 
     def clean(self):
         super().clean()
+        if self.slug == "resume":
+            raise ValidationError({"slug": "This slug is reserved for the resume URL."})
         try:
             validate_technologies(self.technologies)
         except ValidationError as exc:

@@ -26,6 +26,7 @@ class ExperienceTranslationInline(admin.StackedInline):
 
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("company",)}
     list_display = ("company", "start_date", "end_date", "display_order", "is_published")
     list_editable = ("display_order",)
     list_filter = ("is_published", "end_date")
@@ -33,7 +34,7 @@ class ExperienceAdmin(admin.ModelAdmin):
     inlines = (ExperienceTranslationInline,)
     ordering = ("display_order", "company")
     fieldsets = (
-        ("Identity", {"fields": ("company", "company_url", "logo", "display_order", "is_published")}),
+        ("Identity", {"fields": ("company", "slug", "company_url", "logo", "display_order", "is_published")}),
         ("Dates", {"fields": ("start_date", "end_date")}),
         ("Technologies", {"fields": ("technologies",)}),
     )

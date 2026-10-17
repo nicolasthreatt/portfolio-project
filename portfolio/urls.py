@@ -17,7 +17,7 @@ urlpatterns = [
         {"download": True}, name="resume-download",
     ),
     path(
-        "experience/<int:experience_id>/",
+        "experience/<slug:slug>/",
         pages.views.experience_detail,
         name="experience-detail",
     ),
